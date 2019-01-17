@@ -14,6 +14,7 @@ for lines matching supplied regex
 ```yaml
 global:
   scan_freq: 15m
+  metrics_addr: ":9321"
 
 log-files:
   - name: log_httpd_error # alertmanger alert name
