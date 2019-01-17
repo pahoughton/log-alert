@@ -1,0 +1,27 @@
+[
+  {
+    "labels": {
+      "alertname": "log_httpd_error",
+      "regex": "error/i",
+      "instance": "hostname:0"
+     },
+     "annotations": {
+       "sop": "http://wiki/sop-log_httpd_error",
+       "file": "/var/http/error.log"
+       "first_match_line": "2039"
+       "last_match_line": "3252"
+      }
+  },
+  {
+    "labels": {
+      "alertname": "log_messages",
+      "regex": "error/i",
+      "instance": "hostname:0"
+     },
+     "annotations": {
+       "sop": "http://wiki/sop-messages",
+       "file": "/var/http/error.log"
+       "match_range": "123-456"
+      }
+  }
+]
