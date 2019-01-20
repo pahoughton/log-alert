@@ -1,0 +1,85 @@
+# 2019-01-16 (cc) <paul4hough@gmail.com>
+#
+---
+global:
+  labels:
+    alertname: log-alert
+  annotations:
+    warning: using global alertname
+
+log-files:
+  - path: /var/http/error.log
+    labels:
+      alertname: log-http-error
+    annotations:
+      sop: http://wiki/sop-log-httpd-error
+    patterns:
+      - regex: error
+        labels:
+          alertname: log-http-error-error
+        annotations:
+          sop: http://wiki/sop-log-http-error-error
+
+  - path: "/var/http/access.{{ $date }}.log"
+    patterns:
+      - regex: status=5\d\d
+        labels:
+          alertname: log-http-access-500
+        annotations:
+          sop: http://wiki/sop-http-500
+
+  - path: /var/log/syslog
+    labels:
+      alertname: log-syslog-error
+    annotations:
+      sop: http://wiki/sop-syslog-error
+    patterns:
+      - regex: error
+      - regex: fatal
+
+  - path: /var/log/auth.log
+    labels:
+      alertname: log-security-sudo-root
+    annotations:
+      sop: http://wiki/sop-security-root
+    patterns:
+      - regex: sudo:session
+
+  - path: /tmp/log-alert-test/tlog-01
+    labels:
+      alertname: log-log-alert-test
+    annotations:
+      desc: testing 01
+    patterns:
+      - regex: error
+        labels:
+          alertname: log-alert-test-error
+        annotations:
+          desc: test 01 error
+
+
+  - path: /tmp/log-alert-test/sub01/tlog-02
+    labels:
+      alertname: log-log-alert-test
+    annotations:
+      desc: testing 02
+    patterns:
+      - regex: error
+
+  - path: /tmp/log-alert-test/sub02/tlog-03
+    labels:
+      alertname: log-log-alert-test
+    annotations:
+      desc: testing 02
+    patterns:
+      - regex: error
+
+
+
+alertmanagers:
+  - scheme: http
+    static_configs:
+      - targets:
+        - "1.2.3.4:9093"
+        - "1.2.3.5:9093"
+        - "1.2.3.6:9093"
