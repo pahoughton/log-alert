@@ -2,6 +2,7 @@
 #
 ---
 global:
+  listen-addr: ":9321"
   labels:
     alertname: log-alert
   annotations:
@@ -20,7 +21,7 @@ log-files:
         annotations:
           sop: http://wiki/sop-log-http-error-error
 
-  - path: "/var/http/access.{{ $date }}.log"
+  - path: "/var/http/access.log"
     patterns:
       - regex: status=5\d\d
         labels:
@@ -73,7 +74,6 @@ log-files:
       desc: testing 02
     patterns:
       - regex: error
-
 
 
 alertmanagers:
